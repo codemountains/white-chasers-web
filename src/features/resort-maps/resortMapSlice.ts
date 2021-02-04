@@ -132,6 +132,12 @@ export const resortMapSlice = createSlice({
 			}
 		);
 		builder.addCase(
+			getResortOption.rejected,
+			(state,action) => {
+				alert(action.error.message);
+			}
+		);
+		builder.addCase(
 			getResorts.fulfilled,
 			(state: MAP_STATE, action: PayloadAction<SEARCHED_RESORT>) => {
 				return {
