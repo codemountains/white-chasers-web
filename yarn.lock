@@ -1432,6 +1432,11 @@
   resolved "https://registry.yarnpkg.com/@mapbox/jsonlint-lines-primitives/-/jsonlint-lines-primitives-2.0.2.tgz#ce56e539f83552b58d10d672ea4d6fc9adc7b234"
   integrity sha1-zlblOfg1UrWNENZy6k1vya3HsjQ=
 
+"@mapbox/mapbox-gl-supported@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-supported/-/mapbox-gl-supported-1.5.0.tgz#f60b6a55a5d8e5ee908347d2ce4250b15103dc8e"
+  integrity sha512-/PT1P6DNf7vjEEiPkVIRJkvibbqWtqnyGaBz3nfRdcxclNSnSdaLU5tfAgcD7I8Yt5i+L19s406YLl1koLnLbg==
+
 "@mapbox/mapbox-gl-supported@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-supported/-/mapbox-gl-supported-2.0.0.tgz#bb133cd91e562c006713fbc83f21e4b6f711a388"
@@ -1442,12 +1447,7 @@
   resolved "https://registry.yarnpkg.com/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz#8a83f9335c7860effa2eeeca254332aa0aeed8f2"
   integrity sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI=
 
-"@mapbox/tiny-sdf@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@mapbox/tiny-sdf/-/tiny-sdf-1.1.1.tgz#16a20c470741bfe9191deb336f46e194da4a91ff"
-  integrity sha512-Ihn1nZcGIswJ5XGbgFAvVumOgWpvIjBX9jiRlIl46uQG9vJOF51ViBYHF95rEZupuyQbEmhLaDPLQlU7fUTsBg==
-
-"@mapbox/tiny-sdf@^1.2.2":
+"@mapbox/tiny-sdf@^1.1.1", "@mapbox/tiny-sdf@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@mapbox/tiny-sdf/-/tiny-sdf-1.2.2.tgz#536417dd04cd6af4d46eb0e65f932941a7540be1"
   integrity sha512-GeJdumh5Do1JvnE2QbbLixZmJg6CzOfpzcAuS+qZadWK1Gj+yY/mj7IOVlgXCBg/yDqDmitGwSius+rrTpm8RA==
@@ -7610,15 +7610,15 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-mapbox-gl@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.0.1.tgz#e081c075fca2473fbc0e3a28f57c1b68ced3d997"
-  integrity sha512-4sWRh4FztQakCPO/WN2JsMSDOVLKXPSQvHjJgXwIEQtnrxjyFB7Et0VX+h9rDxOA4EB6BRCG8mNgw648/dXNTg==
+mapbox-gl@^1.0.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-1.13.0.tgz#23b339ba5116b7e3b5a2043ea968f7fcb53e34a6"
+  integrity sha512-g8zlzuJxYJqbOPXT19/UBYpVrcefBQ06F/Cbj0fyEfFnFesDcU3cFTxd75/FZ6Upx2ZEjCsD61CHxrcxZidVpA==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.0"
     "@mapbox/geojson-types" "^1.0.2"
     "@mapbox/jsonlint-lines-primitives" "^2.0.2"
-    "@mapbox/mapbox-gl-supported" "^2.0.0"
+    "@mapbox/mapbox-gl-supported" "^1.5.0"
     "@mapbox/point-geometry" "^0.1.0"
     "@mapbox/tiny-sdf" "^1.1.1"
     "@mapbox/unitbezier" "^0.0.0"
@@ -9747,13 +9747,13 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-react-map-gl@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/react-map-gl/-/react-map-gl-6.0.2.tgz#88e9a901ddbe6efd38aa8cbee8878cdd76c1d9d3"
-  integrity sha512-YsUnE1qRoez+ZVkyNsAjOOL0DIazgV4bVn7NsnziW9tUIDUCoErTy/EEl0YZiiIwxpTW+6Rls/rOmtSqaWvsJw==
+react-map-gl@5.2.5:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/react-map-gl/-/react-map-gl-5.2.5.tgz#0b16bfd384d5d471cceaabff893b0d088fec9270"
+  integrity sha512-+U5d2ZJ3FpvJvO1U8hJvikC0s51Gq5bcjA77I8yECrbRIfgtPlnhuRoxUDN7rtxtlMHBsPdsypPe3pKgkK+iow==
   dependencies:
     "@babel/runtime" "^7.0.0"
-    mapbox-gl "^2.0.0"
+    mapbox-gl "^1.0.0"
     mjolnir.js "^2.4.0"
     prop-types "^15.7.2"
     react-virtualized-auto-sizer "^1.0.2"
@@ -9912,9 +9912,9 @@ react-transition-group@^4.4.0:
     prop-types "^15.6.2"
 
 react-virtualized-auto-sizer@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.3.tgz#a491577dc70102b9faaef473d640437eab9db120"
-  integrity sha512-HnJo3Hk5Ky2TUL2GpLOs5sKiyskFwdNllI3P5Mp0tgFatz6ClnEG1gnK76/NhSkd/3YtYPTVjIsINYVBd/fRxw==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.4.tgz#2b83adb5ecdee8dcb33784e96ee0074eb5369665"
+  integrity sha512-fdrY0ZX4Ywv0IIYPY/grQXcVQ44OLOsftl2u81coKe2Ga1wT3ps4JXaeu1JdlfjQxDI5BVsWjZQbpzmjmtI7Qw==
 
 react@^17.0.1:
   version "17.0.1"
@@ -11146,14 +11146,7 @@ stylehacks@^4.0.0:
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
 
-supercluster@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-7.1.0.tgz#f0a457426ec0ab95d69c5f03b51e049774b94479"
-  integrity sha512-LDasImUAFMhTqhK+cUXfy9C2KTUqJ3gucLjmNLNFmKWOnDUBxLFLH9oKuXOTCLveecmxh8fbk8kgh6Q0gsfe2w==
-  dependencies:
-    kdbush "^3.0.0"
-
-supercluster@^7.1.2:
+supercluster@^7.1.0, supercluster@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-7.1.2.tgz#cf02a60283a0118212024f3bf02e4e63bb148e2c"
   integrity sha512-bGA0pk3DYMjLTY1h+rbh0imi/I8k/Lg0rzdBGfyQs0Xkiix7jK2GUmH1qSD8+jq6U0Vu382QHr3+rbbiHqdKJA==
