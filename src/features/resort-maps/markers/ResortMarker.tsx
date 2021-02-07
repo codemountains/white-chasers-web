@@ -4,6 +4,8 @@ import {Marker, Popup} from 'react-map-gl';
 import {Theme, makeStyles} from '@material-ui/core/styles';
 import {RESORT} from '../resortTypes';
 import {selectCenter} from '../resortMapSlice';
+import {isMobileOnly} from "react-device-detect";
+import {Button} from "@material-ui/core";
 
 const MARKER_SIZE = 16;
 const MARKER_SIZE_HALF = MARKER_SIZE / 2;
@@ -25,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 		margin: '8px 8px 3px',
 		color: theme.palette.primary.main,
 		fontWeight: 'bold',
-	}
+	},
+	detailButton: {
+		margin: '8px 0px 0px 0px'
+	},
 }));
 
 const ResortMarker: React.FC<Props> = ({resort}: Props) => {
@@ -43,6 +48,10 @@ const ResortMarker: React.FC<Props> = ({resort}: Props) => {
 			setShowPopup(true);
 		}
 	}, [center, resort])
+
+	const handleDetail = () => {
+		window.location.href = `/details?resort=${resort.id}`;
+	}
 
 	return (
 		<>
@@ -66,6 +75,18 @@ const ResortMarker: React.FC<Props> = ({resort}: Props) => {
 					sortByDepth={true}
 				>
 					<div className={classes.resortName}>{resort.name}</div>
+					{isMobileOnly && (
+						<Button
+							fullWidth
+							variant="outlined"
+							color="primary"
+							size='small'
+							className={classes.detailButton}
+							onClick={handleDetail}
+						>
+							詳細
+						</Button>
+					)}
 				</Popup>
 			)}
 		</>

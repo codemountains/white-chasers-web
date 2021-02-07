@@ -18,7 +18,10 @@ const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE ?? '10';
 const DEFAULT_MAP_CENTER = {
 	latitude: process.env.REACT_APP_DEFAULT_MAP_CENTER_LATITUDE ?? '36.515123',
 	longitude:  process.env.REACT_APP_DEFAULT_MAP_CENTER_LONGITUDE ?? '136.822167',
-}
+};
+const ERROR_MESSAGE = {
+	default: 'エラーが発生しました',
+};
 
 export const getResortOption = createAsyncThunk(
 	'getResortOption/get',
@@ -133,8 +136,8 @@ export const resortMapSlice = createSlice({
 		);
 		builder.addCase(
 			getResortOption.rejected,
-			(state,action) => {
-				alert(action.error.message);
+			(_state, _action) => {
+				alert(ERROR_MESSAGE.default);
 			}
 		);
 		builder.addCase(
@@ -144,6 +147,12 @@ export const resortMapSlice = createSlice({
 					...state,
 					resort: action.payload.results[0]
 				};
+			}
+		);
+		builder.addCase(
+			getResorts.rejected,
+			(_state, _action) => {
+				// alert(ERROR_MESSAGE.default);
 			}
 		);
 		builder.addCase(
@@ -160,6 +169,13 @@ export const resortMapSlice = createSlice({
 			}
 		);
 		builder.addCase(
+			getResortById.rejected,
+			(_state, _action) => {
+				alert(ERROR_MESSAGE.default);
+				window.location.href = '/';
+			}
+		);
+		builder.addCase(
 			getObservatories.fulfilled,
 			(state: MAP_STATE, action: PayloadAction<SEARCHED_OBSERVATORY>) => {
 				return {
@@ -169,12 +185,24 @@ export const resortMapSlice = createSlice({
 			}
 		);
 		builder.addCase(
+			getObservatories.rejected,
+			(_state, _action) => {
+				// alert(ERROR_MESSAGE.default);
+			}
+		);
+		builder.addCase(
 			createForecast.fulfilled,
 			(state: MAP_STATE, action: PayloadAction<FORECAST>) => {
 				return {
 					...state,
 					forecast: action.payload
 				}
+			}
+		);
+		builder.addCase(
+			createForecast.rejected,
+			(_state, _action) => {
+				// alert(ERROR_MESSAGE.default);
 			}
 		);
 	}

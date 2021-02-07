@@ -80,10 +80,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 	drawerPaper: {
 		width: DRAWER_WIDTH,
 	},
-	drawerPaperBottom: {
-		width: 'auto',
-		height: '52vh'
-	},
 	drawerHeader: {
 		display: 'flex',
 		alignItems: 'center',
@@ -298,32 +294,34 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				anchor={resultAnchor}
 				open={!!resort}
 				classes={{
-					paper: clsx(classes.drawerPaper, {
-						[classes.drawerPaperBottom]: resultAnchor === 'bottom',
-					})
+					paper: clsx(classes.drawerPaper)
 				}}
 			>
-				{!isMobileOnly && <div className={classes.drawerHeader}/>}
-				<Divider/>
-				{(resort && forecast) && (
-					<ResortView resort={resort} forecast={forecast}/>
+				{!isMobileOnly && (
+					<>
+						<div className={classes.drawerHeader}/>
+						{(resort && forecast) && (
+							<ResortView resort={resort} forecast={forecast}/>
+						)}
+						<Divider/>
+						<div className={classes.obsTitle}>
+							<span>アメダス観測所</span>
+						</div>
+						<List>
+							{observatories && (
+								observatories.map((obs) => (
+									<>
+										<ListItem key={obs.id}>
+											<ObservatoryView observatory={obs}/>
+										</ListItem>
+										<Divider/>
+									</>
+								))
+							)}
+						</List>
+					</>
 				)}
-				<Divider/>
-				<div className={classes.obsTitle}>
-					<span>アメダス観測所</span>
-				</div>
-				<List>
-					{observatories && (
-						observatories.map((obs) => (
-							<>
-								<ListItem key={obs.id}>
-									<ObservatoryView observatory={obs}/>
-								</ListItem>
-								<Divider/>
-							</>
-						))
-					)}
-				</List>
+
 			</Drawer>
 			{!isMobileOnly ?
 				(
@@ -339,7 +337,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				:
 				(
 					<div>
-						<AppBar position='static' className={classes.appBar}>
+						<AppBar position='fixed' className={classes.appBar}>
 							<Toolbar>
 								{menuSection}
 								<div className={classes.grow}/>

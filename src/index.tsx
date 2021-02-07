@@ -12,6 +12,7 @@ import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import About from './pages/about/About';
 import Terms from './pages/terms/Terms';
 import Privacy from './pages/terms/Privacy';
+import AppDetail from "./pages/app/AppDetail";
 
 const theme = createMuiTheme({
 	palette: {
@@ -88,6 +89,7 @@ ReactDOM.render(
 							<Route exact path='/about' component={About}/>
 							<Route exact path='/terms' component={Terms}/>
 							<Route exact path='/privacy' component={Privacy}/>
+							<Route exact path='/details' component={AppDetail}/>
 						</Switch>
 					</Provider>
 				</CookiesProvider>

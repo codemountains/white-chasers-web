@@ -59,7 +59,7 @@ const ResortMap: React.FC = () => {
 		bearing: 0,
 		pitch: 0
 	});
-	const xAxis = isMobileOnly ? 0.023 : 0;
+	const xAxis = isMobileOnly ? -0.01 : 0;
 	const yAxis = isMobileOnly ? 0 : 0.04;
 
 	useEffect(() => {
