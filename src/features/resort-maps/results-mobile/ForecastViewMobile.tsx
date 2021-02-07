@@ -85,7 +85,7 @@ const ForecastViewMobile: React.FC<Props> = ({details}: Props) => {
 
 	return (
 		<div className={classes.root}>
-			<GridList className={classes.gridList} cols={1.6}>
+			<GridList className={classes.gridList} cols={1.8}>
 				{details.map((detail) => {
 					return (
 						<GridListTile key={detail.id} style={{height: 276}}>
