@@ -10,6 +10,8 @@ import {
 	createForecast,
 	getObservatories,
 	getResortById,
+	showLoader,
+	hideLoader,
 	selectForecast,
 	selectObservatories,
 	selectResort
@@ -58,13 +60,18 @@ const ResultDetail: React.FC<Props> = ({resortId}: Props) => {
 	const forecast = useSelector(selectForecast);
 
 	useEffect(() => {
-		if (resortId) {
-			dispatch(getResortById(resortId));
-			dispatch(getObservatories(resortId));
-			dispatch(createForecast({resort: resortId}));
-		} else {
-			window.location.href = '/';
+		const execute = async () => {
+			if (resortId) {
+				await dispatch(showLoader());
+				await dispatch(getResortById(resortId));
+				await dispatch(getObservatories(resortId));
+				await dispatch(createForecast({resort: resortId}));
+				await dispatch(hideLoader());
+			} else {
+				window.location.href = '/';
+			}
 		}
+		execute().then().catch();
 	}, [dispatch, resortId])
 
 	const handleIconMobile = () => {
