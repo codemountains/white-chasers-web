@@ -155,4 +155,5 @@ export interface MAP_STATE {
 	options: RESORT_OPTION[];
 	observatories: OBSERVATORY[] | null;
 	center: CENTER_POINT;
+	loading: boolean;
 }

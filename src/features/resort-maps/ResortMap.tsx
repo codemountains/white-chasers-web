@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {withCookies, useCookies} from 'react-cookie';
+// import {withCookies, useCookies} from 'react-cookie';
 import {useSelector, useDispatch} from 'react-redux';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {Theme, makeStyles} from '@material-ui/core/styles';
@@ -7,14 +7,14 @@ import ReactMapGL, {NavigationControl, ScaleControl} from 'react-map-gl';
 import ResortMapSearch from './ResortMapSearch';
 import {AppDispatch} from '../../app/store';
 import {
-	getObservatories,
 	getResortOption,
-	getResortById,
-	createForecast,
+	showLoader,
+	hideLoader,
 	selectOptions,
 	selectResort,
 	selectObservatories,
-	selectCenter, selectForecast
+	selectCenter,
+	selectForecast
 } from './resortMapSlice';
 import ResortMarker from './markers/ResortMarker';
 import ObservatoryMarker from './markers/ObservatoryMarker';
@@ -51,7 +51,6 @@ const ResortMap: React.FC = () => {
 	const center = useSelector(selectCenter);
 	const forecast = useSelector(selectForecast);
 
-	const [cookie, setCookie, removeCookie] = useCookies(['resort_id']);
 	const [viewport, setViewport] = useState({
 		latitude: Number(center.latitude),
 		longitude: Number(center.longitude),
@@ -63,31 +62,23 @@ const ResortMap: React.FC = () => {
 	const yAxis = isMobileOnly ? 0 : 0.04;
 
 	useEffect(() => {
-		dispatch(getResortOption());
-		const cookie_resort_id = cookie['resort_id'];
-		if (typeof cookie_resort_id !== 'undefined') {
-			dispatch(getResortById(cookie_resort_id));
-			dispatch(createForecast({resort: cookie_resort_id}));
-		}
-	}, [cookie, dispatch])
+		const init = async () => {
+			await dispatch(showLoader());
+			await dispatch(getResortOption());
+			await dispatch(hideLoader());
+		};
+		init().then().catch();
+	}, [dispatch])
 
 	useEffect(() => {
-		if (resort) {
-			dispatch(getObservatories(resort.id));
-			dispatch(createForecast({resort: resort.id}));
-			setCookie('resort_id', resort.id);
-			setViewport({
-				latitude: Number(center.latitude) - xAxis,
-				longitude: Number(center.longitude) - yAxis,
-				zoom: 11.5,
-				bearing: 0,
-				pitch: 0
-			});
-		}
-		else {
-			removeCookie('resort_id');
-		}
-	}, [dispatch, center, resort, xAxis, yAxis, setCookie, removeCookie]);
+		setViewport({
+			latitude: Number(center.latitude) - xAxis,
+			longitude: Number(center.longitude) - yAxis,
+			zoom: 11.5,
+			bearing: 0,
+			pitch: 0
+		});
+	}, [dispatch, center, resort, xAxis, yAxis]);
 
 	return (
 		<>
@@ -140,4 +131,4 @@ const ResortMap: React.FC = () => {
 	);
 };
 
-export default withCookies(ResortMap);
+export default ResortMap;

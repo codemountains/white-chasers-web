@@ -9,7 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import {FORECAST, OBSERVATORY, RESORT, RESORT_OPTION} from './resortTypes';
 import {AppDispatch} from '../../app/store';
 import {useDispatch} from 'react-redux';
-import {getResortById, resetResort} from './resortMapSlice';
+import {createForecast, getObservatories, getResortById, resetResort, showLoader, hideLoader} from './resortMapSlice';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -220,15 +220,22 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 	};
 
 	const handleChange = (value: RESORT_OPTION | null) => {
-		setSelectedOption(value);
-		if (value) {
-			dispatch(getResortById(value.id));
-			if (isMobileOnly) {
-				setIsOpenSearchBox(!isOpenSearchBox);
+		const change = async () => {
+			await dispatch(showLoader());
+			await setSelectedOption(value);
+			if (value) {
+				await dispatch(getResortById(value.id));
+				await dispatch(getObservatories(value.id));
+				await dispatch(createForecast({resort: value.id}));
+				if (isMobileOnly) {
+					await setIsOpenSearchBox(!isOpenSearchBox);
+				}
+			} else {
+				await dispatch(resetResort());
 			}
-		} else {
-			dispatch(resetResort());
+			await dispatch(hideLoader());
 		}
+		change().then().catch();
 	};
 
 	const menuSection = (

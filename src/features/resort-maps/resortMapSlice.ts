@@ -108,7 +108,8 @@ export const initialState: MAP_STATE = {
 	center: {
 		latitude: DEFAULT_MAP_CENTER.latitude,
 		longitude: DEFAULT_MAP_CENTER.longitude
-	}
+	},
+	loading: false,
 }
 
 export const resortMapSlice = createSlice({
@@ -122,6 +123,12 @@ export const resortMapSlice = createSlice({
 		},
 		updateCenter(state, action: PayloadAction<CENTER_POINT>) {
 			state.center = action.payload;
+		},
+		showLoader(state) {
+			state.loading = true;
+		},
+		hideLoader(state) {
+			state.loading = false;
 		},
 	},
 	extraReducers: builder => {
@@ -210,7 +217,9 @@ export const resortMapSlice = createSlice({
 
 export const {
 	resetResort,
-	updateCenter
+	updateCenter,
+	showLoader,
+	hideLoader,
 } = resortMapSlice.actions;
 
 export const selectOptions = (state: RootState) => state.resort.options;
@@ -218,5 +227,6 @@ export const selectResort = (state: RootState) => state.resort.resort;
 export const selectObservatories = (state: RootState) => state.resort.observatories;
 export const selectCenter = (state: RootState) => state.resort.center;
 export const selectForecast = (state: RootState) => state.resort.forecast;
+export const selectLoading = (state: RootState) => state.resort.loading;
 
 export default resortMapSlice.reducer;
