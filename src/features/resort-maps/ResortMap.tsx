@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-// import {withCookies, useCookies} from 'react-cookie';
+import {withCookies, useCookies} from 'react-cookie';
 import {useSelector, useDispatch} from 'react-redux';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {Theme, makeStyles} from '@material-ui/core/styles';
@@ -8,13 +8,14 @@ import ResortMapSearch from './ResortMapSearch';
 import {AppDispatch} from '../../app/store';
 import {
 	getResortOption,
+	getResortById,
 	showLoader,
 	hideLoader,
 	selectOptions,
 	selectResort,
 	selectObservatories,
 	selectCenter,
-	selectForecast
+	selectForecast, createForecast, getObservatories
 } from './resortMapSlice';
 import ResortMarker from './markers/ResortMarker';
 import ObservatoryMarker from './markers/ObservatoryMarker';
@@ -51,6 +52,8 @@ const ResortMap: React.FC = () => {
 	const center = useSelector(selectCenter);
 	const forecast = useSelector(selectForecast);
 
+	const [cookies, setCookie, removeCookie] = useCookies(['wc_resort']);
+
 	const [viewport, setViewport] = useState({
 		latitude: Number(center.latitude),
 		longitude: Number(center.longitude),
@@ -63,8 +66,19 @@ const ResortMap: React.FC = () => {
 
 	useEffect(() => {
 		const init = async () => {
+			const cookie_resort_id = cookies['wc_resort'];
+
 			await dispatch(showLoader());
-			await dispatch(getResortOption());
+
+			if (typeof cookie_resort_id !== 'undefined') {
+				await dispatch(getResortOption());
+				await dispatch(getResortById(cookie_resort_id));
+				await dispatch(createForecast({resort: cookie_resort_id}));
+				await dispatch(getObservatories(cookie_resort_id));
+			} else {
+				await dispatch(getResortOption());
+			}
+
 			await dispatch(hideLoader());
 		};
 		init().then().catch();
@@ -78,7 +92,17 @@ const ResortMap: React.FC = () => {
 			bearing: 0,
 			pitch: 0
 		});
-	}, [dispatch, center, resort, xAxis, yAxis]);
+
+		if (resort) {
+			setCookie('wc_resort', resort.id);
+		} else {
+			removeCookie('wc_resort');
+		}
+	}, [center, removeCookie, resort, setCookie, xAxis, yAxis]);
+
+	useEffect(() => {
+
+	}, [resort]);
 
 	return (
 		<>
@@ -131,4 +155,4 @@ const ResortMap: React.FC = () => {
 	);
 };
 
-export default ResortMap;
+export default withCookies(ResortMap);

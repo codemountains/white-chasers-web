@@ -225,8 +225,8 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 			await setSelectedOption(value);
 			if (value) {
 				await dispatch(getResortById(value.id));
-				await dispatch(getObservatories(value.id));
 				await dispatch(createForecast({resort: value.id}));
+				await dispatch(getObservatories(value.id));
 				if (isMobileOnly) {
 					await setIsOpenSearchBox(!isOpenSearchBox);
 				}
