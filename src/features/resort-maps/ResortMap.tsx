@@ -66,22 +66,19 @@ const ResortMap: React.FC = () => {
 
 	useEffect(() => {
 		const init = async () => {
-			const cookie_resort_id = cookies['wc_resort'];
-
+			const wc_resort = cookies['wc_resort'];
 			await dispatch(showLoader());
-
-			if (typeof cookie_resort_id !== 'undefined') {
-				await dispatch(getResortOption());
-				await dispatch(getResortById(cookie_resort_id));
-				await dispatch(createForecast({resort: cookie_resort_id}));
-				await dispatch(getObservatories(cookie_resort_id));
-			} else {
-				await dispatch(getResortOption());
+			await dispatch(getResortOption());
+			if (typeof wc_resort !== 'undefined') {
+				await dispatch(getResortById(wc_resort));
+				await dispatch(createForecast({resort: wc_resort}));
+				await dispatch(getObservatories(wc_resort));
 			}
-
 			await dispatch(hideLoader());
 		};
 		init().then().catch();
+		// cookiesを除外
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch])
 
 	useEffect(() => {
