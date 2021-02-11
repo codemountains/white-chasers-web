@@ -103,8 +103,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	appBar: {
 		padding: 0,
-		position: 'absolute',
-		zIndex: 100,
+		// position: 'absolute',
+		// zIndex: 100,
 	},
 	grow: {
 		flexGrow: 1,
@@ -343,7 +343,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				)
 				:
 				(
-					<AppBar position='fixed' className={classes.appBar}>
+					<AppBar className={classes.appBar}>
 						<Toolbar>
 							{menuSection}
 							<div className={classes.grow}/>
