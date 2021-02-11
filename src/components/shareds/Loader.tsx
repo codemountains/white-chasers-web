@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		width: '40px',
 		height: '40px',
 		position: 'absolute',
-		marginTop: '6px',
+		marginTop: '4px',
 	},
 	progress: {
 		position: 'absolute',

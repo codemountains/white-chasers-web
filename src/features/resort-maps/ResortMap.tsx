@@ -23,6 +23,7 @@ import {isMobileOnly} from 'react-device-detect';
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const MAPBOX_STYLE_URL = process.env.REACT_APP_MAPBOX_STYLE_URL;
+const KEY_WC_RESORT = 'wc_resort';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	navigation: {
@@ -52,7 +53,7 @@ const ResortMap: React.FC = () => {
 	const center = useSelector(selectCenter);
 	const forecast = useSelector(selectForecast);
 
-	const [cookies, setCookie, removeCookie] = useCookies(['wc_resort']);
+	const [cookies, setCookie, removeCookie] = useCookies([KEY_WC_RESORT]);
 
 	const [viewport, setViewport] = useState({
 		latitude: Number(center.latitude),
@@ -66,7 +67,7 @@ const ResortMap: React.FC = () => {
 
 	useEffect(() => {
 		const init = async () => {
-			const wc_resort = cookies['wc_resort'];
+			const wc_resort = cookies[KEY_WC_RESORT];
 			await dispatch(showLoader());
 			await dispatch(getResortOption());
 			if (typeof wc_resort !== 'undefined') {
@@ -91,15 +92,11 @@ const ResortMap: React.FC = () => {
 		});
 
 		if (resort) {
-			setCookie('wc_resort', resort.id);
+			setCookie(KEY_WC_RESORT, resort.id);
 		} else {
-			removeCookie('wc_resort');
+			removeCookie(KEY_WC_RESORT);
 		}
 	}, [center, removeCookie, resort, setCookie, xAxis, yAxis]);
-
-	useEffect(() => {
-
-	}, [resort]);
 
 	return (
 		<>
