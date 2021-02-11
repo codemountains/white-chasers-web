@@ -343,7 +343,6 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				)
 				:
 				(
-
 					<AppBar position='fixed' className={classes.appBar}>
 						<Toolbar>
 							{menuSection}
@@ -368,7 +367,6 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 							</div>
 						}
 					</AppBar>
-
 				)
 			}
 		</>
