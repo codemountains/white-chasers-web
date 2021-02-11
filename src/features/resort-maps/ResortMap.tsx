@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		right: theme.spacing(2),
 	},
 	navigationMobile: {
-		position: 'absolute',
+		position: 'fixed',
 		top: theme.spacing(8),
 		right: theme.spacing(1),
 	},
@@ -100,14 +100,12 @@ const ResortMap: React.FC = () => {
 
 	return (
 		<>
-			<div>
-				<ResortMapSearch
-					options={options}
-					resort={resort}
-					forecast={forecast}
-					observatories={observatories}
-				/>
-			</div>
+			<ResortMapSearch
+				options={options}
+				resort={resort}
+				forecast={forecast}
+				observatories={observatories}
+			/>
 			<ReactMapGL
 				{...viewport}
 				mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
