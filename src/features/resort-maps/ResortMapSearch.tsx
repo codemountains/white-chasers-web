@@ -27,9 +27,6 @@ import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import AppBar from '@material-ui/core/AppBar';
 import {ReactComponent as Icon} from '../../icon.svg';
 import {ReactComponent as Logo} from '../../logo.svg';
-import ScrollTopper from "../../components/shareds/ScrollTopper";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Fab from "@material-ui/core/Fab";
 
 const SEARCH_BOX_WIDTH = 430;
 const DRAWER_WIDTH = 468;
@@ -346,37 +343,32 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				)
 				:
 				(
-					<>
-						<AppBar position='fixed' className={classes.appBar}>
-							<Toolbar>
-								{menuSection}
-								<div className={classes.grow}/>
-								<Icon className={classes.wcIconMobile} onClick={handleIconMobile}/>
-								<div className={classes.grow}/>
-								<IconButton
-									aria-label='show search box'
-									aria-controls={mobileSearchBoxId}
-									aria-haspopup='true'
-									onClick={handleSearchBoxOpen}
-									color='inherit'
-								>
-									<SearchIcon/>
-								</IconButton>
-							</Toolbar>
-							{
-								isOpenSearchBox
-								&&
-								<div className={classes.mobileSearchBoxContainer}>
-									{searchBox}
-								</div>
-							}
-						</AppBar>
-						<ScrollTopper targetId={'back-to-top-anchor-mobile-search'}>
-							<Fab color='secondary' size='small' aria-label='scroll back to top'>
-								<KeyboardArrowUpIcon/>
-							</Fab>
-						</ScrollTopper>
-					</>
+
+					<AppBar position='fixed' className={classes.appBar}>
+						<Toolbar>
+							{menuSection}
+							<div className={classes.grow}/>
+							<Icon className={classes.wcIconMobile} onClick={handleIconMobile}/>
+							<div className={classes.grow}/>
+							<IconButton
+								aria-label='show search box'
+								aria-controls={mobileSearchBoxId}
+								aria-haspopup='true'
+								onClick={handleSearchBoxOpen}
+								color='inherit'
+							>
+								<SearchIcon/>
+							</IconButton>
+						</Toolbar>
+						{
+							isOpenSearchBox
+							&&
+							<div className={classes.mobileSearchBoxContainer}>
+								{searchBox}
+							</div>
+						}
+					</AppBar>
+
 				)
 			}
 		</>
