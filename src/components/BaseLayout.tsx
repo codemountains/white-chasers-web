@@ -7,12 +7,23 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {ReactComponent as HeaderLogo} from '../logo-long-white.svg';
 import ScrollTopper from "./shareds/ScrollTopper";
+import SideMenu from "./menus/SideMenu";
+import {isMobileOnly} from "react-device-detect";
+import {ReactComponent as Icon} from "../icon.svg";
 
 const useStyles = makeStyles(() => ({
 	headerLogo: {
-		width: '284px',
-		height: '52px',
+		width: '272px',
+		height: '36px',
 		margin: '0px 8px',
+		cursor: 'pointer',
+	},
+	grow: {
+		flexGrow: 1,
+	},
+	wcIconMobile: {
+		width: '34px',
+		height: '40px',
 		cursor: 'pointer',
 	},
 }));
@@ -40,7 +51,21 @@ const BaseLayout: React.FC<Props> = (props: Props) => {
 			<CssBaseline/>
 			<AppBar>
 				<Toolbar>
-					<HeaderLogo className={classes.headerLogo} onClick={handleClick}/>
+					<SideMenu whiteMenu={true}/>
+					{isMobileOnly ?
+						(
+							<>
+								<div className={classes.grow}/>
+								<Icon className={classes.wcIconMobile} onClick={handleClick}/>
+								<div className={classes.grow}/>
+								<div style={{width: '24px', padding: '10px'}}/>
+							</>
+						)
+						:
+						(
+							<HeaderLogo className={classes.headerLogo} onClick={handleClick}/>
+						)
+					}
 				</Toolbar>
 			</AppBar>
 			<Toolbar id='back-to-top-anchor'/>

@@ -9,24 +9,25 @@ import SearchIcon from '@material-ui/icons/Search';
 import {FORECAST, OBSERVATORY, RESORT, RESORT_OPTION} from './resortTypes';
 import {AppDispatch} from '../../app/store';
 import {useDispatch} from 'react-redux';
-import {createForecast, getObservatories, getResortById, resetResort, showLoader, hideLoader} from './resortMapSlice';
+import {
+	createForecast,
+	getObservatories,
+	getResortById,
+	resetResort,
+	showLoader,
+	hideLoader
+} from './resortMapSlice';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import AcUnitRoundedIcon from '@material-ui/icons/AcUnitRounded';
 import Drawer from '@material-ui/core/Drawer';
 import ResortView from './results/ResortView';
 import ObservatoryView from './results/ObservatoryView';
-import {Typography} from '@material-ui/core';
-import {isMobileOnly, isIOS} from 'react-device-detect';
+import {isMobileOnly} from 'react-device-detect';
 import clsx from 'clsx';
 import Toolbar from '@material-ui/core/Toolbar';
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import AppBar from '@material-ui/core/AppBar';
 import {ReactComponent as Icon} from '../../icon.svg';
-import {ReactComponent as Logo} from '../../logo.svg';
+import SideMenu from "../../components/menus/SideMenu";
 
 const SEARCH_BOX_WIDTH = 430;
 const DRAWER_WIDTH = 468;
@@ -50,9 +51,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 		'& div': {
 			backgroundColor: '#FFFFFF',
 		},
-	},
-	iconButton: {
-		padding: 10,
 	},
 	divider: {
 		height: 28,
@@ -103,14 +101,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	appBar: {
 		padding: 0,
-		// position: 'absolute',
-		// zIndex: 100,
 	},
 	grow: {
 		flexGrow: 1,
-	},
-	mobileMenuIcon: {
-		color: '#FFFFFF',
 	},
 	mobileSearchBoxContainer: {
 		margin: theme.spacing(0.5, 1.5, 1.5, 1.5),
@@ -143,7 +136,6 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 
 	const dispatch: AppDispatch = useDispatch();
 	const [selectedOption, setSelectedOption] = useState<RESORT_OPTION | null>(null);
-	const [openMenu, setOpenMenu] = useState(false);
 
 	const resultAnchor: ResultAnchor = isMobileOnly ? 'bottom' : 'left';
 
@@ -155,63 +147,6 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 			}
 		}
 	}, [options, resort])
-
-	const toggleDrawer = (open: boolean) => (
-		event: React.KeyboardEvent | React.MouseEvent
-	) => {
-		if (
-			event &&
-			event.type === 'keydown' &&
-			(
-				(event as React.KeyboardEvent).key === 'Tab'
-				|| (event as React.KeyboardEvent).key === 'Shift'
-			)
-		) {
-			return;
-		}
-		setOpenMenu(open);
-	};
-
-	const handleAbout = () => {
-		toggleDrawer(false);
-		window.location.href = '/about';
-	};
-
-	const menuList = (
-		<div
-			className={classes.list}
-			role='presentation'
-		>
-			<List>
-				<ListItem>
-					<Logo className={classes.wcLogo} onClick={toggleDrawer(false)}/>
-				</ListItem>
-				<ListItem
-					button
-					onClick={handleAbout}
-					onKeyDown={handleAbout}
-				>
-					<ListItemText primary='About' secondary='WHITE CHASERSについて'/>
-				</ListItem>
-			</List>
-			<Divider/>
-			<List>
-				<ListItem
-					button
-					onClick={toggleDrawer(false)}
-					onKeyDown={toggleDrawer(false)}
-				>
-					<ListItemIcon>
-						<AcUnitRoundedIcon color='primary'/>
-					</ListItemIcon>
-					<ListItemText
-						primary={<Typography className={classes.mainLabel}>スキー場検索</Typography>}
-						secondary={<Typography className={classes.secondLabel}>天気予報・降雪情報をチェック</Typography>}
-					/>
-				</ListItem>
-			</List>
-		</div>
-	);
 
 	const mobileSearchBoxId = 'mobile-header-search-box';
 	const [isOpenSearchBox, setIsOpenSearchBox] = useState(false);
@@ -237,32 +172,6 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 		}
 		change().then().catch();
 	};
-
-	const menuSection = (
-		<React.Fragment>
-			<IconButton
-				className={classes.iconButton}
-				aria-label='menu'
-				onClick={toggleDrawer(!openMenu)}
-			>
-				{isMobileOnly ?
-					(<MenuRoundedIcon className={classes.mobileMenuIcon}/>)
-					:
-					(<MenuRoundedIcon color='secondary'/>)
-				}
-			</IconButton>
-			<SwipeableDrawer
-				anchor='left'
-				open={openMenu}
-				onClose={toggleDrawer(false)}
-				onOpen={toggleDrawer(true)}
-				disableBackdropTransition={!isIOS}
-				disableDiscovery={isIOS}
-			>
-				{menuList}
-			</SwipeableDrawer>
-		</React.Fragment>
-	);
 
 	const searchBox = (
 		<Autocomplete
@@ -334,7 +243,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				(
 					<div>
 						<Paper className={classes.root} elevation={2}>
-							{menuSection}
+							<SideMenu whiteMenu={false}/>
 							<Divider className={classes.divider} orientation='vertical'/>
 							<Icon className={classes.wcIcon}/>
 							{searchBox}
@@ -345,7 +254,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				(
 					<AppBar className={classes.appBar}>
 						<Toolbar>
-							{menuSection}
+							<SideMenu whiteMenu={true}/>
 							<div className={classes.grow}/>
 							<Icon className={classes.wcIconMobile} onClick={handleIconMobile}/>
 							<div className={classes.grow}/>
