@@ -24,7 +24,7 @@ const ERROR_MESSAGE = {
 };
 
 export const getResortOption = createAsyncThunk(
-	'getResortOption/get',
+	'resortMap/getResortOption',
 	async () => {
 		const response = await axios.get<RESORT_OPTION[]>(
 			`${API_BASE_URL}/api/v1/resorts/options`,
@@ -39,7 +39,7 @@ export const getResortOption = createAsyncThunk(
 );
 
 export const getResorts = createAsyncThunk(
-	'getResort/get',
+	'resortMap/getResort',
 	async (param: SEARCH_PARAMETERS) => {
 		const prefecture = param.prefecture > 0 ? param.prefecture.toString() : '';
 		const response = await axios.get<SEARCHED_RESORT>(
@@ -55,7 +55,7 @@ export const getResorts = createAsyncThunk(
 );
 
 export const getResortById = createAsyncThunk(
-	'getResortById/get',
+	'resortMap/getResortById',
 	async (id: string) => {
 		const response = await axios.get<RESORT>(
 			`${API_BASE_URL}/api/v1/resorts/${id}`,
@@ -70,7 +70,7 @@ export const getResortById = createAsyncThunk(
 );
 
 export const getObservatories = createAsyncThunk(
-	'getObservatories/get',
+	'resortMap/getObservatories',
 	async (resort_id: string) => {
 		const response = await axios.get<SEARCHED_OBSERVATORY>(
 			`${API_BASE_URL}/api/v1/observatories/?resort=${resort_id}&dist=${DEFAULT_DISTANCE}`,
@@ -85,7 +85,7 @@ export const getObservatories = createAsyncThunk(
 );
 
 export const createForecast = createAsyncThunk(
-	'createForecast/post',
+	'resortMap/createForecast',
 	async (param: CREATE_FORECAST_PARAM) => {
 		const response = await axios.post<FORECAST>(
 			`${API_BASE_URL}/api/v1/forecasts/resorts/`,

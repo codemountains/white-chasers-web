@@ -1,5 +1,6 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import resortReducer from '../features/resort-maps/resortMapSlice';
+import forecastReducer from '../features/forecasts/forecastSlice';
 
 const devTools = (): boolean => {
 	const devTools = process.env.REACT_APP_REDUX_DEV_TOOLS;
@@ -13,6 +14,7 @@ const devTools = (): boolean => {
 export const store = configureStore({
 	reducer: {
 		resort: resortReducer,
+		forecast: forecastReducer,
 	},
 	devTools: devTools()
 });

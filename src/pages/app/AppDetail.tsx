@@ -7,7 +7,7 @@ import Loader from "../../components/shareds/Loader";
 
 const useQuery = () => {
 	return new URLSearchParams(useLocation().search);
-}
+};
 
 const AppDetail: React.FC = () => {
 	let query = useQuery();

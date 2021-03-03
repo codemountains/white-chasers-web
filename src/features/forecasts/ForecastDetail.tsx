@@ -1,6 +1,6 @@
 import React from 'react';
-import {FORECAST_DETAIL} from '../resortTypes';
 import {makeStyles, Theme} from '@material-ui/core/styles';
+import {FORECAST_DETAIL} from './forecastTypes';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Card from '@material-ui/core/Card';
@@ -8,6 +8,10 @@ import {CardContent} from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import {isMobileOnly} from "react-device-detect";
+
+const GRID_COLS = 5.4;
+const GRID_COLS_MOBILE = 1.8;
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -79,80 +83,82 @@ type Props = {
 	details: FORECAST_DETAIL[];
 };
 
-const ForecastView: React.FC<Props> = ({details}: Props) => {
+const ForecastDetail: React.FC<Props> = ({details}: Props) => {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.root}>
-			<GridList className={classes.gridList} cols={2.4}>
-				{details.map((detail) => {
-					return (
-						<GridListTile key={detail.id} style={{height: 276}}>
-							<Card className={classes.cardRoot}>
-								<CardHeader
-									className={classes.cardHeader}
-									title={detail.forecasted_date}
-									subheader={detail.forecasted_time}
-								/>
-								<CardContent className={classes.cardContent}>
-									<Grid container spacing={0}>
-										<Grid item xs={4}>
-											<img
-												className={classes.weatherIcon}
-												src={`${process.env.PUBLIC_URL}/weathers/day/${detail.weather_icon_name.replace('n', 'd')}.png`}
-												// src={`${process.env.PUBLIC_URL}/weathers/${detail.sys}/${detail.weather_icon_name}.png`}
-												alt={detail.weather_description}
-											/>
-										</Grid>
-										<Grid item xs={8} className={classes.gridWeather}>
+		<div>
+			<div className={classes.root}>
+				<GridList className={classes.gridList} cols={!isMobileOnly ? GRID_COLS : GRID_COLS_MOBILE}>
+					{details.map((detail) => {
+						return (
+							<GridListTile key={detail.id} style={{height: 276}}>
+								<Card className={classes.cardRoot}>
+									<CardHeader
+										className={classes.cardHeader}
+										title={detail.forecasted_date}
+										subheader={detail.forecasted_time}
+									/>
+									<CardContent className={classes.cardContent}>
+										<Grid container spacing={0}>
+											<Grid item xs={4}>
+												<img
+													className={classes.weatherIcon}
+													src={`${process.env.PUBLIC_URL}/weathers/day/${detail.weather_icon_name.replace('n', 'd')}.png`}
+													// src={`${process.env.PUBLIC_URL}/weathers/${detail.sys}/${detail.weather_icon_name}.png`}
+													alt={detail.weather_description}
+												/>
+											</Grid>
+											<Grid item xs={8} className={classes.gridWeather}>
 											<span className={classes.weatherDescription}>
 												{detail.weather_description}
 											</span>
-										</Grid>
-										<Grid item xs={12}>
-											<Divider className={classes.divider}/>
-											<span className={classes.detailLabel}>
+											</Grid>
+											<Grid item xs={12}>
+												<Divider className={classes.divider}/>
+												<span className={classes.detailLabel}>
 												気温：{detail.temp} ℃
 											</span>
-										</Grid>
-										<Grid item xs={12}>
-											<Divider className={classes.divider}/>
-											<span className={classes.detailLabel}>
+											</Grid>
+											<Grid item xs={12}>
+												<Divider className={classes.divider}/>
+												<span className={classes.detailLabel}>
 												風速：{detail.wind_speed} m/s
 											</span>
-										</Grid>
-										<Grid item xs={12}>
+											</Grid>
+											<Grid item xs={12}>
 											<span className={classes.detailLabel}>
 												風向：{detail.wind_deg_name}
 											</span>
-										</Grid>
-										<Grid item xs={12}>
-											<Divider className={classes.divider}/>
-											<span className={classes.detailImportantLabel}>
+											</Grid>
+											<Grid item xs={12}>
+												<Divider className={classes.divider}/>
+												<span className={classes.detailImportantLabel}>
 												降水確率：{detail.pop} ％
 											</span>
-										</Grid>
-										<Grid item xs={12}>
-											<Divider className={classes.divider}/>
-											<span className={classes.detailSnowLabel}>
+											</Grid>
+											<Grid item xs={12}>
+												<Divider className={classes.divider}/>
+												<span className={classes.detailSnowLabel}>
 												降雪量：{detail.snow_depth ? detail.snow_depth : ' - '} cm
 											</span>
-										</Grid>
-										<Grid item xs={12}>
-											<Divider className={classes.divider}/>
-											<span className={classes.detailRainLabel}>
+											</Grid>
+											<Grid item xs={12}>
+												<Divider className={classes.divider}/>
+												<span className={classes.detailRainLabel}>
 												降水量：{detail.rain ? detail.rain : (detail.snow ? detail.snow : ' - ')} mm
 											</span>
+											</Grid>
 										</Grid>
-									</Grid>
-								</CardContent>
-							</Card>
-						</GridListTile>
-					)
-				})}
-			</GridList>
+									</CardContent>
+								</Card>
+							</GridListTile>
+						)
+					})}
+				</GridList>
+			</div>
 		</div>
 	);
 };
 
-export default ForecastView;
+export default ForecastDetail;

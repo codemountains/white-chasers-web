@@ -43,7 +43,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
-const ResortMap: React.FC = () => {
+type Props = {
+	resortId: string | null;
+}
+
+const ResortMap: React.FC<Props> = ({resortId}: Props) => {
 	const classes = useStyles();
 
 	const dispatch: AppDispatch = useDispatch();
@@ -66,18 +70,27 @@ const ResortMap: React.FC = () => {
 	const yAxis = isMobileOnly ? 0 : 0.04;
 
 	useEffect(() => {
-		const init = async () => {
-			const wc_resort = cookies[KEY_WC_RESORT];
+		const init = async (resort_id: string | null) => {
 			await dispatch(showLoader());
 			await dispatch(getResortOption());
-			if (typeof wc_resort !== 'undefined') {
-				await dispatch(getResortById(wc_resort));
-				await dispatch(createForecast({resort: wc_resort}));
-				await dispatch(getObservatories(wc_resort));
+			if (resort_id) {
+				await dispatch(getResortById(resort_id));
+				await dispatch(createForecast({resort: resort_id}));
+				await dispatch(getObservatories(resort_id));
 			}
 			await dispatch(hideLoader());
 		};
-		init().then().catch();
+
+		if (resortId) {
+			init(resortId).then().catch();
+		} else {
+			const wc_resort = cookies[KEY_WC_RESORT];
+			if (typeof wc_resort !== 'undefined') {
+				init(wc_resort).then().catch();
+			} else {
+				init(null).then().catch();
+			}
+		}
 		// cookiesを除外
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch])
@@ -147,4 +160,5 @@ const ResortMap: React.FC = () => {
 	);
 };
 
+// @ts-ignore
 export default withCookies(ResortMap);
