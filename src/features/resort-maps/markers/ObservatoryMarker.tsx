@@ -4,6 +4,7 @@ import {Theme, makeStyles} from '@material-ui/core/styles';
 import {OBSERVATORY} from '../resortTypes';
 import {useSelector} from 'react-redux';
 import {selectCenter} from '../resortMapSlice';
+import {Typography} from "@material-ui/core";
 
 const MARKER_SIZE = 16;
 const MARKER_SIZE_HALF = MARKER_SIZE / 2;
@@ -73,7 +74,21 @@ const ObservatoryMarker: React.FC<Props> = ({observatory}: Props) => {
 				>
 					<div className={classes.observatoryPopup}>
 						<span className={classes.observatoryName}>{observatory.name}</span><br/>
-						{snowfall ? snowfall.snowfall_24h : '0.0'}cm / 24h
+						{/*{snowfall ? snowfall.snowfall_24h : '0.0'}cm / 24h*/}
+						{snowfall ?
+							(
+								<Typography variant='body2'>
+									{snowfall.snowfall_24h}cm / 24h
+								</Typography>
+
+							)
+							:
+							(
+								<Typography variant='caption' color='secondary'>
+									積雪データなし
+								</Typography>
+							)
+						}
 					</div>
 				</Popup>
 			)}

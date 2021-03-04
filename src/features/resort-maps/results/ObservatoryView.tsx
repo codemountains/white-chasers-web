@@ -263,10 +263,24 @@ const ObservatoryView: React.FC<Props> = ({observatory}: Props) => {
 								<div className={classes.barChart}>
 									<Bar data={snowfall_data} options={options(null, 'cm')}/>
 								</div>
+								<div>
+									{!snowfall && (
+										<Typography variant='body2' color='secondary' align='center'>
+											*積雪を計測できません（気温・降水量を参考にしてください）
+										</Typography>
+									)}
+								</div>
 							</TabPanel>
 							<TabPanel value={tabValue} index={1} dir={theme.direction}>
 								<div className={classes.barChart}>
 									<Bar data={rainfall_data} options={options(null, 'mm')}/>
+								</div>
+								<div>
+									{!snowfall && (
+										<Typography variant='body2' color='secondary' align='center'>
+											*積雪を計測できません（気温・降水量を参考にしてください）
+										</Typography>
+									)}
 								</div>
 							</TabPanel>
 						</SwipeableViews>
