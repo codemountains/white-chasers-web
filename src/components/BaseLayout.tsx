@@ -58,7 +58,7 @@ const BaseLayout: React.FC<Props> = (props: Props) => {
 								<div className={classes.grow}/>
 								<Icon className={classes.wcIconMobile} onClick={handleClick}/>
 								<div className={classes.grow}/>
-								<div style={{width: '24px', padding: '10px'}}/>
+								<div style={{width: '40px', height: '40px', padding: '8px'}}/>
 							</>
 						)
 						:
