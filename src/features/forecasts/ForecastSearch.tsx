@@ -16,8 +16,11 @@ import {makeStyles, Theme} from "@material-ui/core/styles";
 import {AppDispatch} from "../../app/store";
 import {useDispatch} from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import {Typography} from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	searchBoxContainer: {
@@ -120,18 +123,42 @@ const ForecastSearch: React.FC<Props> = ({options}: Props) => {
 
 	return (
 		<div>
-			<Paper className={classes.searchBoxContainer}>
-				<Grid container spacing={2}>
-					{[1, 2, 3].map((value) => (
-						<Grid item xs={value === 1 ? 12 : 6} md={4} key={value}>
-							<Typography>
-								{'#' + value}
-							</Typography>
-							{searchBox(value)}
-						</Grid>
-					))}
-				</Grid>
-			</Paper>
+			<Accordion defaultExpanded>
+				<AccordionSummary
+					expandIcon={<ExpandMoreIcon/>}
+					aria-controls="panel1a-content"
+					id="panel1a-header"
+				>
+					<Typography color='primary' variant='h6'>
+						天気予報比較
+					</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<Grid container spacing={2}>
+						{[1, 2, 3].map((value) => (
+							<Grid item xs={12} md={4} key={value}>
+								<Typography>
+									{'#' + value}
+								</Typography>
+								{searchBox(value)}
+							</Grid>
+						))}
+					</Grid>
+				</AccordionDetails>
+			</Accordion>
+			{/*<Typography color='primary' variant='h6' gutterBottom>*/}
+			{/*	天気予報比較*/}
+			{/*</Typography>*/}
+			{/*<Grid container spacing={2}>*/}
+			{/*	{[1, 2, 3].map((value) => (*/}
+			{/*		<Grid item xs={12} md={4} key={value}>*/}
+			{/*			<Typography>*/}
+			{/*				{'#' + value}*/}
+			{/*			</Typography>*/}
+			{/*			{searchBox(value)}*/}
+			{/*		</Grid>*/}
+			{/*	))}*/}
+			{/*</Grid>*/}
 		</div>
 	);
 };
