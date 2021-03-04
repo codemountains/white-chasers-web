@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Marker, Popup} from 'react-map-gl';
-import {Theme, makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {OBSERVATORY} from '../resortTypes';
 import {useSelector} from 'react-redux';
 import {selectCenter} from '../resortMapSlice';
@@ -13,7 +13,7 @@ type Props = {
 	observatory: OBSERVATORY;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
 	observatoryMarker: {
 		backgroundColor: 'rgba(26, 196, 210, 1)',
 		borderRadius: '50%',
