@@ -153,7 +153,7 @@ const ResortMap: React.FC<Props> = ({resortId}: Props) => {
 						<ResortMarker resort={resort}/>
 					</>
 				)}
-				{(resort && observatories) && (
+				{observatories && (
 					observatories.map((obs) => (
 						<ObservatoryMarker observatory={obs} key={obs.id}/>
 					))
