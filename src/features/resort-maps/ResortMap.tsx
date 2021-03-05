@@ -9,13 +9,15 @@ import {AppDispatch} from '../../app/store';
 import {
 	getResortOption,
 	getResortById,
+	createForecast,
+	getObservatories,
 	showLoader,
 	hideLoader,
 	selectOptions,
 	selectResort,
 	selectObservatories,
 	selectCenter,
-	selectForecast, createForecast, getObservatories
+	selectForecast
 } from './resortMapSlice';
 import ResortMarker from './markers/ResortMarker';
 import ObservatoryMarker from './markers/ObservatoryMarker';
@@ -118,6 +120,7 @@ const ResortMap: React.FC<Props> = ({resortId}: Props) => {
 				resort={resort}
 				forecast={forecast}
 				observatories={observatories}
+				center={{latitude: String(viewport.latitude), longitude: String(viewport.longitude)}}
 			/>
 			<ReactMapGL
 				{...viewport}
@@ -150,7 +153,7 @@ const ResortMap: React.FC<Props> = ({resortId}: Props) => {
 						<ResortMarker resort={resort}/>
 					</>
 				)}
-				{observatories && (
+				{(resort && observatories) && (
 					observatories.map((obs) => (
 						<ObservatoryMarker observatory={obs} key={obs.id}/>
 					))

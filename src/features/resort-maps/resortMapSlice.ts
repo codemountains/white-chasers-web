@@ -10,7 +10,8 @@ import {
 	SEARCHED_OBSERVATORY,
 	SEARCHED_RESORT,
 	FORECAST,
-	CREATE_FORECAST_PARAM
+	CREATE_FORECAST_PARAM,
+	SEARCH_OBS_BY_CENTER_PARAM
 } from './resortTypes';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
@@ -74,6 +75,21 @@ export const getObservatories = createAsyncThunk(
 	async (resort_id: string) => {
 		const response = await axios.get<SEARCHED_OBSERVATORY>(
 			`${API_BASE_URL}/api/v1/observatories/?resort=${resort_id}&dist=${DEFAULT_DISTANCE}`,
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			}
+		);
+		return response.data;
+	}
+);
+
+export const getObservatoriesByCenter = createAsyncThunk(
+	'resortMap/getObservatoriesByCenter',
+	async (param: SEARCH_OBS_BY_CENTER_PARAM) => {
+		const response = await axios.get<SEARCHED_OBSERVATORY>(
+			`${API_BASE_URL}/api/v1/observatories/?lat=${param.latitude}&lon=${param.longitude}&dist=${param.distance}`,
 			{
 				headers: {
 					'Content-Type': 'application/json'
@@ -193,6 +209,21 @@ export const resortMapSlice = createSlice({
 		);
 		builder.addCase(
 			getObservatories.rejected,
+			(_state, _action) => {
+				// alert(ERROR_MESSAGE.default);
+			}
+		);
+		builder.addCase(
+			getObservatoriesByCenter.fulfilled,
+			(state: MAP_STATE, action: PayloadAction<SEARCHED_OBSERVATORY>) => {
+				return {
+					...state,
+					observatories: action.payload.results
+				};
+			}
+		);
+		builder.addCase(
+			getObservatoriesByCenter.rejected,
 			(_state, _action) => {
 				// alert(ERROR_MESSAGE.default);
 			}

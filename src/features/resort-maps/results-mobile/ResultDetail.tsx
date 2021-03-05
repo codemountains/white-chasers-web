@@ -49,9 +49,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type Props = {
 	resortId: string | null;
+	areaSearch: boolean;
 };
 
-const ResultDetail: React.FC<Props> = ({resortId}: Props) => {
+const ResultDetail: React.FC<Props> = ({resortId, areaSearch}: Props) => {
 	const classes = useStyles();
 
 	const dispatch: AppDispatch = useDispatch();
@@ -117,7 +118,7 @@ const ResultDetail: React.FC<Props> = ({resortId}: Props) => {
 						{observatories.map((obs) => (
 								<>
 									<ListItem key={obs.id}>
-										<ObservatoryViewMobile observatory={obs}/>
+										<ObservatoryViewMobile observatory={obs} showDistance={!areaSearch}/>
 									</ListItem>
 									<Divider/>
 								</>

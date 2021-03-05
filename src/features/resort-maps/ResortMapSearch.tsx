@@ -6,12 +6,13 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import {FORECAST, OBSERVATORY, RESORT, RESORT_OPTION} from './resortTypes';
+import {CENTER_POINT, FORECAST, OBSERVATORY, RESORT, RESORT_OPTION} from './resortTypes';
 import {AppDispatch} from '../../app/store';
 import {useDispatch} from 'react-redux';
 import {
 	createForecast,
 	getObservatories,
+	getObservatoriesByCenter,
 	getResortById,
 	resetResort,
 	showLoader,
@@ -28,6 +29,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import {ReactComponent as Icon} from '../../icon.svg';
 import SideMenu from "../../components/menus/SideMenu";
+import Button from "@material-ui/core/Button";
 
 const SEARCH_BOX_WIDTH = 430;
 const DRAWER_WIDTH = 468;
@@ -113,6 +115,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 		height: '72px',
 		cursor: 'pointer'
 	},
+	areaSearchRoot: {
+		width: '100%',
+		position: 'absolute',
+		zIndex: 90,
+		textAlign: 'center',
+	},
+	areaSearch: {
+		margin: theme.spacing(1.5)
+	},
+	areaSearchMobile: {
+		marginTop: '62px',
+	}
 }));
 
 const optionLabel = (name: string, kana: string | null): string => {
@@ -127,15 +141,17 @@ type Props = {
 	resort: RESORT | null;
 	forecast: FORECAST | null;
 	observatories: OBSERVATORY[] | null;
+	center: CENTER_POINT;
 };
 
 type ResultAnchor = 'left' | 'bottom';
 
-const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forecast}: Props) => {
+const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forecast, center}: Props) => {
 	const classes = useStyles();
 
 	const dispatch: AppDispatch = useDispatch();
 	const [selectedOption, setSelectedOption] = useState<RESORT_OPTION | null>(null);
+	const [areaSearch, setAreaSearch] = useState<boolean>(false);
 
 	const resultAnchor: ResultAnchor = isMobileOnly ? 'bottom' : 'left';
 
@@ -159,6 +175,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 			await dispatch(showLoader());
 			await setSelectedOption(value);
 			if (value) {
+				await setAreaSearch(false);
 				await dispatch(getResortById(value.id));
 				await dispatch(createForecast({resort: value.id}));
 				await dispatch(getObservatories(value.id));
@@ -166,6 +183,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 					await setIsOpenSearchBox(!isOpenSearchBox);
 				}
 			} else {
+				await setAreaSearch(false);
 				await dispatch(resetResort());
 			}
 			await dispatch(hideLoader());
@@ -200,7 +218,21 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 
 	const handleIconMobile = () => {
 		window.location.href = '/';
-	}
+	};
+
+	const handleSearchArea = () => {
+		const change = async () => {
+			await setAreaSearch(true);
+			await dispatch(showLoader());
+			await dispatch(getObservatoriesByCenter({
+				latitude: center.latitude,
+				longitude: center.longitude,
+				distance: 40
+			}))
+			await dispatch(hideLoader());
+		}
+		change().then().catch();
+	};
 
 	return (
 		<>
@@ -208,7 +240,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 				className={classes.drawer}
 				variant='persistent'
 				anchor={resultAnchor}
-				open={!!resort}
+				open={!!resort || !!observatories}
 				classes={{
 					paper: clsx(classes.drawerPaper)
 				}}
@@ -228,7 +260,7 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 								observatories.map((obs) => (
 									<>
 										<ListItem key={obs.id}>
-											<ObservatoryView observatory={obs}/>
+											<ObservatoryView observatory={obs} showDistance={!areaSearch}/>
 										</ListItem>
 										<Divider/>
 									</>
@@ -248,34 +280,48 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 							<Icon className={classes.wcIcon}/>
 							{searchBox}
 						</Paper>
+						c
 					</div>
 				)
 				:
 				(
-					<AppBar className={classes.appBar}>
-						<Toolbar>
-							<SideMenu whiteMenu={true}/>
-							<div className={classes.grow}/>
-							<Icon className={classes.wcIconMobile} onClick={handleIconMobile}/>
-							<div className={classes.grow}/>
-							<IconButton
-								aria-label='show search box'
-								aria-controls={mobileSearchBoxId}
-								aria-haspopup='true'
-								onClick={handleSearchBoxOpen}
-								color='inherit'
+					<>
+						<AppBar className={classes.appBar}>
+							<Toolbar>
+								<SideMenu whiteMenu={true}/>
+								<div className={classes.grow}/>
+								<Icon className={classes.wcIconMobile} onClick={handleIconMobile}/>
+								<div className={classes.grow}/>
+								<IconButton
+									aria-label='show search box'
+									aria-controls={mobileSearchBoxId}
+									aria-haspopup='true'
+									onClick={handleSearchBoxOpen}
+									color='inherit'
+								>
+									<SearchIcon/>
+								</IconButton>
+							</Toolbar>
+							{
+								isOpenSearchBox
+								&&
+								<div className={classes.mobileSearchBoxContainer}>
+									{searchBox}
+								</div>
+							}
+						</AppBar>
+						<div className={classes.areaSearchRoot}>
+							<Button
+								variant='contained'
+								color='secondary'
+								className={classes.areaSearchMobile}
+								startIcon={<SearchIcon/>}
+								onClick={handleSearchArea}
 							>
-								<SearchIcon/>
-							</IconButton>
-						</Toolbar>
-						{
-							isOpenSearchBox
-							&&
-							<div className={classes.mobileSearchBoxContainer}>
-								{searchBox}
-							</div>
-						}
-					</AppBar>
+								このエリアのアメダス観測所を検索
+							</Button>
+						</div>
+					</>
 				)
 			}
 		</>

@@ -85,9 +85,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type Props = {
 	observatory: OBSERVATORY;
+	showDistance: boolean;
 };
 
-const ObservatoryView: React.FC<Props> = ({observatory}: Props) => {
+const ObservatoryView: React.FC<Props> = ({observatory, showDistance}: Props) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch: AppDispatch = useDispatch();
@@ -193,10 +194,14 @@ const ObservatoryView: React.FC<Props> = ({observatory}: Props) => {
 				</Grid>
 				<Grid item xs={6}>
 					<div className={classes.distanceContainer}>
-						<SettingsEthernetRoundedIcon fontSize='default' className={classes.distanceIcon}/>
-						<div className={classes.distance}>
-							約{observatory.distance}km
-						</div>
+						{showDistance && (
+							<>
+								<SettingsEthernetRoundedIcon fontSize='default' className={classes.distanceIcon}/>
+								<div className={classes.distance}>
+									約{observatory.distance}km
+								</div>
+							</>
+						)}
 					</div>
 				</Grid>
 				<Grid item xs={12}>
