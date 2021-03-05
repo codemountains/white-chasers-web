@@ -280,7 +280,17 @@ const ResortMapSearch: React.FC<Props> = ({options, resort, observatories, forec
 							<Icon className={classes.wcIcon}/>
 							{searchBox}
 						</Paper>
-						c
+						<div className={classes.areaSearchRoot}>
+							<Button
+								variant='contained'
+								color='secondary'
+								className={classes.areaSearch}
+								startIcon={<SearchIcon/>}
+								onClick={handleSearchArea}
+							>
+								このエリアのアメダス観測所を検索
+							</Button>
+						</div>
 					</div>
 				)
 				:
