@@ -51,7 +51,7 @@ const ResortMarker: React.FC<Props> = ({resort}: Props) => {
 
 	const handleDetail = () => {
 		window.location.href = `/details?resort=${resort.id}`;
-	}
+	};
 
 	return (
 		<>

@@ -11,6 +11,7 @@ const MARKER_SIZE_HALF = MARKER_SIZE / 2;
 
 type Props = {
 	observatory: OBSERVATORY;
+	// resortId: string;
 }
 
 const useStyles = makeStyles(() => ({
@@ -31,7 +32,12 @@ const useStyles = makeStyles(() => ({
 	},
 	observatoryName: {
 		fontSize: '14px',
-	}
+	},
+	detailButton: {
+		margin: '8px 0px 0px 0px',
+		width: '120px',
+		height: '32px',
+	},
 }));
 
 const ObservatoryMarker: React.FC<Props> = ({observatory}: Props) => {
@@ -49,7 +55,11 @@ const ObservatoryMarker: React.FC<Props> = ({observatory}: Props) => {
 		) {
 			setShowPopup(true);
 		}
-	}, [center, observatory])
+	}, [center, observatory]);
+
+	// const handleDetail = () => {
+	// 	window.location.href = `/details?resort=${resortId}`;
+	// };
 
 	return (
 		<>
@@ -74,7 +84,6 @@ const ObservatoryMarker: React.FC<Props> = ({observatory}: Props) => {
 				>
 					<div className={classes.observatoryPopup}>
 						<span className={classes.observatoryName}>{observatory.name}</span><br/>
-						{/*{snowfall ? snowfall.snowfall_24h : '0.0'}cm / 24h*/}
 						{snowfall ?
 							(
 								<Typography variant='body2'>
@@ -84,7 +93,7 @@ const ObservatoryMarker: React.FC<Props> = ({observatory}: Props) => {
 							)
 							:
 							(
-								<Typography variant='caption' color='secondary'>
+								<Typography variant='body2' color='secondary'>
 									積雪データなし
 								</Typography>
 							)

@@ -16,7 +16,7 @@ const AppDetail: React.FC = () => {
 	return (
 		<>
 			<Loader show={loading}/>
-			<ResultDetail resortId={query.get('resort')}/>
+			<ResultDetail resortId={query.get('resort')} areaSearch={false}/>
 		</>
 	);
 };

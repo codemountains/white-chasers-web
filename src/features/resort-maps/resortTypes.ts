@@ -140,6 +140,12 @@ export interface FORECAST {
 	forecast_details: FORECAST_DETAIL[];
 }
 
+export interface SEARCH_OBS_BY_CENTER_PARAM {
+	latitude: string;
+	longitude: string;
+	distance: number;
+}
+
 export interface CREATE_FORECAST_PARAM {
 	resort: string;
 }
